@@ -1,4 +1,4 @@
-import conf from '../conf.js'
+import conf from '../conf/conf.js'
 import { Client, Account, ID } from "appwrite";
 
 export class AuthServices {
@@ -8,29 +8,29 @@ export class AuthServices {
         this.client
             .setEndpoint(conf.appwriteURL)
             .setProject(conf.appwriteProjectID);
-        this.account = new Account(this.client)
+        this.account = new Account(this.client);
     }
 
     async createAccount({ email, password, name }) {
         try {
-            const useraccount = await this.account.create(ID.unique(), email, password, name)
+            const useraccount = await this.account.create(ID.unique(), email, password, name);
             if (useraccount) {
-                return this.login(email, password)
+                return this.login(email, password);
             }
             else {
-                return useraccount
+                return useraccount;
             }
         } catch (error) {
-            throw error
+            console.log("Appwrite serive :: CreateAccount :: error", error);
         }
     }
 
     async login({ email, password }) {
         try {
-            const user = await this.account.createEmailSession(email, password)
-            return user
+            const user = await this.account.createEmailSession(email, password);
+            return user;
         } catch (error) {
-            throw error
+            console.log("Appwrite serive :: lOGIN :: error", error);
 
         }
     }
@@ -39,21 +39,19 @@ export class AuthServices {
         try {
             return await this.account.deleteSessions()
         } catch (error) {
-            throw error
+            console.log("Appwrite serive :: lOGOUT :: error", error);
         }
     }
 
-    async getcurrentUser() {
+    async getCurrentUser() {
         try {
-            return await this.account.getcurrentUser()
+            return await this.account.get();
         } catch (error) {
-            throw error
+            console.log("Appwrite serive :: getCurrentUser :: error", error);
         }
-        return null
+        return null;
     }
 }
 
-
 const authservices = new AuthServices()
-
 export default authservices
