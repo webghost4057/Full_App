@@ -8,18 +8,25 @@ const Protected = ({children , authentication = true}) => {
     const authStatus = useSelector((state)=>state.auth.status)
     const[loader , setLoader] = useState(true)
 
-    useEffect(()=>{
-        if(authentication && authStatus !== authentication){
-            navigate('/login')
-        }
-        else if(!authentication && authStatus!==authentication){
-            navigate('/')
-        }
-        setLoader(false)
+    useEffect(() => {
+        const redirect = () => {
+            if (authentication && !authStatus) {
+                navigate('/login');
+            }
+            else if (!authentication && authStatus) {
+                navigate('/');
+            }
 
-    },[authStatus , navigate , authentication])
-    
-  return loader? <h1>Loading....</h1> : <>{children}</>
+            setLoader(false);
+        };
+        redirect();
+    }, []);
+
+    if (loader) {
+        return <h1>Loading...</h1>;
+    }
+
+  return <>{children}</>;
 }
 
 export default Protected

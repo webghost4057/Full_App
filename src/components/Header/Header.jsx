@@ -48,13 +48,11 @@ const Header = () => {
         <nav className="md:flex items-center space-x-4">
           <ul className="flex items-center space-x-4">
             {navItems.map((item) => (
-              <li key={item.name}>
-                {item.active ? (
+              item.active && (
+                <li key={item.name}>
                   <Link to={item.slug} className="text-gray-300 hover:text-white">{item.name}</Link>
-                ) : (
-                  <button onClick={() => navigate(item.slug)} className="text-gray-300 hover:text-white">{item.name}</button>
-                )}
-              </li>
+                </li>
+              )
             ))}
             {authStatus && (
               <li>

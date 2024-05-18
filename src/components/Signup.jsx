@@ -5,6 +5,7 @@ import {useNavigate} from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import{useDispatch} from 'react-redux'
 import { login as authLogin } from '../store/authSlice'
+import { Link } from 'react-router-dom'
 
 
 
@@ -17,13 +18,15 @@ const Signup = () => {
     const Signup = async(data)=>{
         setErr('')
         try {
+            console.log("#######");
             const session = await authservices.createAccount(data)
+            console.log("Session" , session);
             if(session){
                 const UserData = await authservices.getCurrentUser()
+                console.log("@@@@" , UserData);
                 if(UserData) dispatch(authLogin(UserData))
                 navigate('/')
             }
-            
         } catch (error) {
             setErr(error.message)
         }

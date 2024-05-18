@@ -3,7 +3,7 @@ import { Header , Footer } from './components'
 import { useDispatch } from 'react-redux';
 import authservices from './appwrite/authentication';
 import { login , logout } from './store/authSlice';
-
+import { Outlet } from 'react-router-dom'
 function App() {
   const [loading , setLoading] = useState(true)
   const dispatch = useDispatch()
@@ -39,7 +39,7 @@ function App() {
       ):(
         <div>
       <Header/>
-      <h1>HEllo</h1>
+      <Outlet/>
       <Footer/>
      </div>
       )
